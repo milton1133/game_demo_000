@@ -150,7 +150,7 @@ class Game {
     }
 
     addObstacle() {
-        const obstacleSize = this.boundary.width * 0.04; // 从0.05减小到0.04
+        const obstacleSize = this.boundary.width * 0.05; // 从0.04增加到0.05
         const obstacle = {
             x: this.boundary.x + Math.random() * (this.boundary.width - obstacleSize),
             y: this.boundary.y,
@@ -164,7 +164,7 @@ class Game {
     }
 
     addMovingObstacle() {
-        const obstacleSize = this.boundary.width * 0.04; // 从0.05减小到0.04
+        const obstacleSize = this.boundary.width * 0.05; // 从0.04增加到0.05
         const movingObstacle = {
             x: this.boundary.x + Math.random() * (this.boundary.width - obstacleSize),
             y: this.boundary.y,
@@ -365,7 +365,7 @@ class Game {
         const container = document.getElementById('game-container');
         const containerWidth = container.clientWidth;
         const containerHeight = container.clientHeight;
-        const aspectRatio = 21 / 9; // 修改为更宽的比例，例如21:9
+        const aspectRatio = 16 / 10; // 修改为更长的比例，例如16:10
 
         let canvasWidth, canvasHeight;
         if (containerWidth / containerHeight > aspectRatio) {
@@ -379,14 +379,14 @@ class Game {
         this.canvas.width = canvasWidth;
         this.canvas.height = canvasHeight;
 
-        // 更新游戏边界，使其更宽
-        this.boundary.width = this.canvas.width * 0.9; // 增加到90%的画布宽度
-        this.boundary.height = this.canvas.height * 0.8;
+        // 更新游戏边界
+        this.boundary.width = this.canvas.width * 0.9;
+        this.boundary.height = this.canvas.height * 0.9; // 增加高度占比
         this.boundary.x = (this.canvas.width - this.boundary.width) / 2;
         this.boundary.y = (this.canvas.height - this.boundary.height) / 2;
 
         // 更新玩家位置
-        this.player.width = this.boundary.width * 0.04; // 稍微减小玩家大小
+        this.player.width = this.boundary.width * 0.05;
         this.player.height = this.player.width;
         this.player.x = this.boundary.x + (this.boundary.width - this.player.width) / 2;
         this.player.y = this.boundary.y + this.boundary.height - this.player.height - 10;
