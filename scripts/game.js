@@ -18,6 +18,8 @@ class Game {
         this.splitObstacleEnabled = false; // 是否启用分裂障碍物
         this.splitMovingObstacleEnabled = false; // 是否启用移动障碍物分裂
         this.resizeTimeout = null;
+        this.isDragging = false;
+        this.lastMouseX = 0;
     }
 
     init() {
@@ -148,7 +150,7 @@ class Game {
     }
 
     addObstacle() {
-        const obstacleSize = this.boundary.width * 0.05;
+        const obstacleSize = this.boundary.width * 0.04; // 从0.05减小到0.04
         const obstacle = {
             x: this.boundary.x + Math.random() * (this.boundary.width - obstacleSize),
             y: this.boundary.y,
@@ -162,7 +164,7 @@ class Game {
     }
 
     addMovingObstacle() {
-        const obstacleSize = this.boundary.width * 0.05;
+        const obstacleSize = this.boundary.width * 0.04; // 从0.05减小到0.04
         const movingObstacle = {
             x: this.boundary.x + Math.random() * (this.boundary.width - obstacleSize),
             y: this.boundary.y,
@@ -295,6 +297,36 @@ class Game {
     addEventListeners() {
         document.addEventListener('keydown', this.handleKeyDown.bind(this));
         document.addEventListener('touchmove', this.handleTouchMove.bind(this));
+        
+        // 添加鼠标事件监听器
+        this.canvas.addEventListener('mousedown', this.handleMouseDown.bind(this));
+        document.addEventListener('mousemove', this.handleMouseMove.bind(this));
+        document.addEventListener('mouseup', this.handleMouseUp.bind(this));
+    }
+
+    handleMouseDown(e) {
+        this.isDragging = true;
+        this.lastMouseX = e.clientX;
+    }
+
+    handleMouseMove(e) {
+        if (this.isDragging) {
+            const deltaX = e.clientX - this.lastMouseX;
+            this.movePlayer(deltaX);
+            this.lastMouseX = e.clientX;
+        }
+    }
+
+    handleMouseUp() {
+        this.isDragging = false;
+    }
+
+    movePlayer(deltaX) {
+        const newX = this.player.x + deltaX;
+        this.player.x = Math.max(
+            this.boundary.x,
+            Math.min(this.boundary.x + this.boundary.width - this.player.width, newX)
+        );
     }
 
     handleKeyDown(e) {
@@ -302,11 +334,11 @@ class Game {
         switch(e.key) {
             case 'ArrowLeft':
             case 'a':
-                this.player.x = Math.max(this.boundary.x, this.player.x - speed);
+                this.movePlayer(-speed);
                 break;
             case 'ArrowRight':
             case 'd':
-                this.player.x = Math.min(this.boundary.x + this.boundary.width - this.player.width, this.player.x + speed);
+                this.movePlayer(speed);
                 break;
         }
     }
@@ -315,7 +347,10 @@ class Game {
         e.preventDefault();
         const touch = e.touches[0];
         const newX = touch.clientX - this.player.width / 2;
-        this.player.x = Math.max(this.boundary.x, Math.min(this.boundary.x + this.boundary.width - this.player.width, newX));
+        this.player.x = Math.max(
+            this.boundary.x,
+            Math.min(this.boundary.x + this.boundary.width - this.player.width, newX)
+        );
     }
 
     exitToMenu() {
@@ -330,7 +365,7 @@ class Game {
         const container = document.getElementById('game-container');
         const containerWidth = container.clientWidth;
         const containerHeight = container.clientHeight;
-        const aspectRatio = 16 / 9; // 假设我们想要保持16:9的宽高比
+        const aspectRatio = 21 / 9; // 修改为更宽的比例，例如21:9
 
         let canvasWidth, canvasHeight;
         if (containerWidth / containerHeight > aspectRatio) {
@@ -344,14 +379,14 @@ class Game {
         this.canvas.width = canvasWidth;
         this.canvas.height = canvasHeight;
 
-        // 更新游戏边界
-        this.boundary.width = this.canvas.width * 0.8;
+        // 更新游戏边界，使其更宽
+        this.boundary.width = this.canvas.width * 0.9; // 增加到90%的画布宽度
         this.boundary.height = this.canvas.height * 0.8;
         this.boundary.x = (this.canvas.width - this.boundary.width) / 2;
         this.boundary.y = (this.canvas.height - this.boundary.height) / 2;
 
         // 更新玩家位置
-        this.player.width = this.boundary.width * 0.05;
+        this.player.width = this.boundary.width * 0.04; // 稍微减小玩家大小
         this.player.height = this.player.width;
         this.player.x = this.boundary.x + (this.boundary.width - this.player.width) / 2;
         this.player.y = this.boundary.y + this.boundary.height - this.player.height - 10;
