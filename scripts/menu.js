@@ -19,8 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         game.start();
     });
 
+    // ... 其他代码保持不变 ...
+
     instructionsButton.addEventListener('click', () => {
-        alert('使用箭头键或WASD移动角色，尽可能长时间地避开红色障碍物！');
+        alert('使用箭頭鍵或WASD移動角色，盡可能長時間地避開紅色障礙物！');
     });
 
     leaderboardButton.addEventListener('click', () => {
@@ -28,8 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     exitButton.addEventListener('click', () => {
-        if (confirm('确定要退出游戏吗？')) {
-            window.close(); // 注意：这可能不会在所有浏览器中生效
+        if (confirm('確定要退出遊戲嗎？')) {
+            window.close(); // 注意：這可能不會在所有瀏覽器中生效
         }
     });
 
@@ -41,11 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function initMockLeaderboard() {
     if (!localStorage.getItem('leaderboard')) {
         const mockData = [
-            { name: 'Player1', score: 100 },
-            { name: 'Player2', score: 90 },
-            { name: 'Player3', score: 80 },
-            { name: 'Player4', score: 70 },
-            { name: 'Player5', score: 60 }
+            { name: '玩家1', score: 100 },
+            { name: '玩家2', score: 90 },
+            { name: '玩家3', score: 80 },
+            { name: '玩家4', score: 70 },
+            { name: '玩家5', score: 60 }
         ];
         localStorage.setItem('leaderboard', JSON.stringify(mockData));
     }
@@ -53,7 +55,7 @@ function initMockLeaderboard() {
 
 function showLeaderboard() {
     const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-    let leaderboardHTML = '<h2>排行榜</h2><table><tr><th>排名</th><th>名字</th><th>分数</th></tr>';
+    let leaderboardHTML = '<h2>排行榜</h2><table><tr><th>排名</th><th>名字</th><th>分數</th></tr>';
     leaderboard.forEach((entry, index) => {
         leaderboardHTML += `<tr><td>${index + 1}</td><td>${entry.name}</td><td>${entry.score}</td></tr>`;
     });
@@ -73,7 +75,7 @@ function showLeaderboard() {
     leaderboardDiv.style.overflowY = 'auto';
 
     const closeButton = document.createElement('button');
-    closeButton.textContent = '关闭';
+    closeButton.textContent = '關閉';
     closeButton.onclick = () => document.body.removeChild(leaderboardDiv);
     leaderboardDiv.appendChild(closeButton);
 

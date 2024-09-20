@@ -145,7 +145,7 @@ class Game {
 
     drawScore() {
         this.ctx.fillStyle = '#bb86fc';
-        this.ctx.font = '20px Noto Sans SC';
+        this.ctx.font = '20px Noto Sans TC';
         this.ctx.fillText(`得分: ${Math.floor(this.score / 60)}`, this.boundary.x + 10, this.boundary.y + 30);
     }
 
@@ -258,7 +258,7 @@ class Game {
     }
 
     promptNameAndUpdateLeaderboard(score) {
-        const name = prompt(`游戏结束！您的得分是: ${score}\n请输入您的名字：`);
+        const name = prompt(`遊戲結束！您的得分是: ${score}\n請輸入您的名字：`);
         if (name) {
             this.updateLeaderboard(name, score);
         }
